@@ -16,8 +16,12 @@ namespace PeopleSierra
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
+
+            string _dbPath = FileAccessHelper.GetLocalFilePath("people.db3");
+            builder.Services.AddSingleton<PersonRepository>(s => ActivatorUtilities.CreateInstance<PersonRepository>(s, _dbPath));
+
 
             return builder.Build();
         }

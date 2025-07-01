@@ -1,24 +1,27 @@
-﻿namespace PeopleSierra
+﻿using PeopleSierra.Models;
+
+namespace PeopleSierra;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        int count = 0;
+        InitializeComponent();
+    }
 
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+    public void OnNewButtonClicked(object sender, EventArgs args)
+    {
+        statusMessage.Text = "";
 
-        private void OnCounterClicked(object? sender, EventArgs e)
-        {
-            count++;
+        App.PersonRepo.AddNewPerson(newPerson.Text);
+        statusMessage.Text = App.PersonRepo.StatusMessage;
+    }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+    public void OnGetButtonClicked(object sender, EventArgs args)
+    {
+        statusMessage.Text = "";
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        List<Person> people = App.PersonRepo.GetAllPeople();
+        peopleList.ItemsSource = people;
     }
 }
